@@ -1,3 +1,10 @@
+"""Tool definitions for financial data retrieval.
+
+This module defines various financial data tools using the Tool and ToolProperty classes.
+Each tool represents a specific financial data endpoint for retrieving information such as
+company overviews, income statements, balance sheets, cash flows, and earnings reports.
+"""
+
 from textwrap import dedent
 
 from schema import Tool, ToolProperty

@@ -69,7 +69,7 @@ def extract_symbol(context: str) -> tuple[str, dict]:
             return None, {"Error": "Missing stock symbol"}
 
     except (json.JSONDecodeError, KeyError) as e:
-        return None, {"Error": f"Invalid context format: {str(e)}"}
+        return None, {"Error": f"Invalid context format: {e!s}"}
 
     else:
         return symbol, None
@@ -103,7 +103,7 @@ def get_company_overview(context: str) -> dict:
         result = fetcher(client, "OVERVIEW", symbol)
         logging.info("Company overview fetched successfully!")
     except Exception as e:
-        logging.exception(f"Error fetching company overview: {e}")
+        logging.exception("Error fetching company overview:")
         result = {"Error": str(e)}
 
     else:
@@ -139,7 +139,7 @@ def get_income_statement(context: str) -> dict:
         logging.info("Income statement fetched successfully!")
 
     except Exception as e:
-        logging.exception(f"Error fetching income statement: {e}")
+        logging.exception("Error fetching income statement:")
         result = {"Error": str(e)}
 
     else:
@@ -175,7 +175,7 @@ def get_balance_sheet(context: str) -> dict:
         logging.info("Balance sheet fetched successfully!")
 
     except Exception as e:
-        logging.exception(f"Error fetching balance sheet: {e}")
+        logging.exception("Error fetching balance sheet:")
         result = {"Error": str(e)}
 
     else:
@@ -211,7 +211,7 @@ def get_cash_flow(context: str) -> dict:
         logging.info("Cash flow fetched successfully!")
 
     except Exception as e:
-        logging.exception(f"Error fetching cash flow: {e}")
+        logging.exception("Error fetching cash flow:")
         result = {"Error": str(e)}
 
     else:
@@ -247,7 +247,7 @@ def get_earnings(context: str) -> dict:
         logging.info("Earnings fetched successfully!")
 
     except Exception as e:
-        logging.exception(f"Error fetching earnings: {e}")
+        logging.exception("Error fetching earnings:")
         result = {"Error": str(e)}
 
     else:

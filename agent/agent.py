@@ -7,22 +7,20 @@ from agno.tools.mcp import MCPTools
 
 
 async def run_agent(message: str) -> None:
-    """Run the filesystem agent with the given message."""
+    """Run the financial anlysis agent with the given message."""
 
     async with MCPTools("") as mcp_tools:
         agent = Agent(
             model=OpenAIChat(id="gpt-4o"),
             tools=[mcp_tools],
             instructions=dedent("""\
-                You are a filesystem assistant. Help users explore files and directories.
+            You are a financial analysis agent.
 
-                - Navigate the filesystem to answer questions
-                - Use the list_allowed_directories tool to find directories that you can access
-                - Provide clear context about files you examine
-                - Use headings to organize your responses
-                - Be concise and focus on relevant information\
+            Analyze a company's income statement, balance sheet, cash flow, and earnings.
+            Generate a concise report summarizing the company's financial overview.
             """),
             markdown=True,
+            planning=True,
             show_tool_calls=True,
         )
 

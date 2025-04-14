@@ -5,7 +5,7 @@ import os
 import azure.functions as func
 from httpx import Client
 
-from tools import COMPANY_OVERVIEW
+from tools import BALANCE_SHEET, CASH_FLOW, COMPANY_OVERVIEW, EARNINGS, INCOME_STATEMENT
 
 app = func.FunctionApp(http_auth_level=func.AuthLevel.FUNCTION)
 client = Client()
@@ -34,7 +34,7 @@ def fetcher(
     Returns:
         dict: The JSON response from the API.
 
-    """  # noqa: E501
+    """
     # Define the parameters for the request
     params = {
         "function": function,
@@ -64,17 +64,166 @@ def get_company_overview(context: str) -> dict:
         context (str): The context string is containing the arguments for the function.
 
     Returns:
-        str: The response text from the HTTP request.
+        dict: The JSON response from the API.
 
     """
     logging.info("Fetching company overview")
 
     # Parse the context to extract the symbol
-    content = json.loads(context)
-    symbol = content["arguments"]["symbol"]
+    try:
+        content = json.loads(context)
+        symbol = content["arguments"]["symbol"]
 
-    # Fetch the company overview
-    result = fetcher(client, "OVERVIEW", symbol)
-    logging.info("Company overview fetched successfully!")
+        # Fetch the company overview
+        result = fetcher(client, "OVERVIEW", symbol)
+        logging.info("Company overview fetched successfully!")
 
-    return result
+    except Exception as e:
+        logging.exception(f"Error fetching company overview: {e}")
+        result = {"Error": str(e)}
+    else:
+        return result
+
+
+@app.generic_trigger(
+    arg_name="context",
+    type="mcpToolTrigger",
+    toolName=INCOME_STATEMENT.name,
+    description=INCOME_STATEMENT.description,
+    toolProperties=INCOME_STATEMENT.tool_properties_as_json(),
+)
+def get_income_statement(context: str) -> dict:
+    """Fetch income statement data from Alpha Vantage API.
+
+    Args:
+        context (str): The context string is containing the arguments for the function.
+
+    Returns:
+        dict: The JSON response from the API.
+
+    """
+    logging.info("Fetching income statement")
+
+    # Parse the context to extract the symbol
+    try:
+        content = json.loads(context)
+        symbol = content["arguments"]["symbol"]
+
+        # Fetch the income statement
+        result = fetcher(client, "OVERVIEW", symbol)
+        logging.info("Income statement fetched successfully!")
+
+    except Exception as e:
+        logging.exception(f"Error fetching income statement: {e}")
+        result = {"Error": str(e)}
+
+    else:
+        return result
+
+
+@app.generic_trigger(
+    arg_name="context",
+    type="mcpToolTrigger",
+    toolName=BALANCE_SHEET.name,
+    description=BALANCE_SHEET.description,
+    toolProperties=BALANCE_SHEET.tool_properties_as_json(),
+)
+def get_balance_sheet(context: str) -> dict:
+    """Fetch balance sheet data from Alpha Vantage API.
+
+    Args:
+        context (str): The context string is containing the arguments for the function.
+
+    Returns:
+        dict: The JSON response from the API.
+
+    """
+    logging.info("Fetching balance sheet")
+
+    # Parse the context to extract the symbol
+    try:
+        content = json.loads(context)
+        symbol = content["arguments"]["symbol"]
+
+        # Fetch the balance sheet
+        result = fetcher(client, "OVERVIEW", symbol)
+        logging.info("Balance sheet fetched successfully!")
+
+    except Exception as e:
+        logging.exception(f"Error fetching balance sheet: {e}")
+        result = {"Error": str(e)}
+
+    else:
+        return result
+
+
+@app.generic_trigger(
+    arg_name="context",
+    type="mcpToolTrigger",
+    toolName=CASH_FLOW.name,
+    description=CASH_FLOW.description,
+    toolProperties=CASH_FLOW.tool_properties_as_json(),
+)
+def get_cash_flow(context: str) -> dict:
+    """Fetch balance sheet data from Alpha Vantage API.
+
+    Args:
+        context (str): The context string is containing the arguments for the function.
+
+    Returns:
+        dict: The JSON response from the API.
+
+    """
+    logging.info("Fetching cash flow")
+
+    # Parse the context to extract the symbol
+    try:
+        content = json.loads(context)
+        symbol = content["arguments"]["symbol"]
+
+        # Fetch the cash flow
+        result = fetcher(client, "OVERVIEW", symbol)
+        logging.info("Cash flow fetched successfully!")
+
+    except Exception as e:
+        logging.exception(f"Error fetching cash flow: {e}")
+        result = {"Error": str(e)}
+
+    else:
+        return result
+
+
+@app.generic_trigger(
+    arg_name="context",
+    type="mcpToolTrigger",
+    toolName=EARNINGS.name,
+    description=EARNINGS.description,
+    toolProperties=EARNINGS.tool_properties_as_json(),
+)
+def get_earnings(context: str) -> dict:
+    """Fetch balance sheet data from Alpha Vantage API.
+
+    Args:
+        context (str): The context string is containing the arguments for the function.
+
+    Returns:
+        dict: The JSON response from the API.
+
+    """
+    logging.info("Fetching earnings")
+
+    # Parse the context to extract the symbol
+    try:
+        content = json.loads(context)
+        symbol = content["arguments"]["symbol"]
+
+        # Fetch the earnings")
+        result = fetcher(client, "OVERVIEW", symbol)
+        logging.info("Earnings fetched successfully!")
+
+    except Exception as e:
+        logging.exception(f"Error fetching earnings: {e}")
+        result = {"Error": str(e)}
+
+    else:
+        return result

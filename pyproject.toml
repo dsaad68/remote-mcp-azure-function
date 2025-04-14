@@ -8,3 +8,14 @@ dependencies = [
     "azure-functions>=1.23.0",
     "httpx>=0.28.1",
 ]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+lint.select = ["E", "F", "I", "UP", "A"]
+lint.ignore = ["D203", "LOG015"]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.11.5",
+]

@@ -57,19 +57,19 @@ def fetcher(
     description=COMPANY_OVERVIEW.description,
     toolProperties=COMPANY_OVERVIEW.tool_properties_as_json(),
 )
-def get_company_overview(context) -> dict:
+def get_company_overview(context: str) -> dict:
     """Fetch company overview data from Alpha Vantage API.
 
     Args:
-        symbol (str): The stock symbol of the company to fetch data for.
-        ctx (Context): The context object containing request information.
+        context (str): The context string is containing the arguments for the function.
 
     Returns:
         str: The response text from the HTTP request.
 
-    """  # noqa: E501
+    """
     logging.info("Fetching company overview")
 
+    # Parse the context to extract the symbol
     content = json.loads(context)
     symbol = content["arguments"]["symbol"]
 

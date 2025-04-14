@@ -10,6 +10,11 @@
     },
     "vnetEnabled": {
       "value": "${VNET_ENABLED}"
+    },
+    "functionAppEnvironmentVariables": {
+      "value": {
+        "ALPHAVANTAGE_API_KEY": "<ALPHAVANTAGE_API_KEY>"
+      }
     }
   }
 }

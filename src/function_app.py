@@ -26,7 +26,7 @@ def fetcher(
     This function constructs the URL with the provided parameters and makes an asynchronous GET request.
 
     Args:
-        client (AsyncClient): The HTTP client to use for the request.
+        client (Client): The HTTP client to use for the request.
         function (str): The function to call on the API.
         symbol (str): The stock symbol to fetch data for.
         api_key (str): The API key for authentication.
@@ -43,11 +43,36 @@ def fetcher(
     }
     # Make the request to the API
     try:
-        response = client.get(url=BASE_URL, params=params)
+
+        response = client.get(url=BASE_URL, params=params, timeout=10.0)
         response.raise_for_status()
         return response.json()
+
     except Exception as e:
         return {"Error": str(e)}
+
+
+def extract_symbol(context: str) -> tuple[str, dict]:
+    """Extract symbol from context and validate it.
+
+    Args:
+        context (str): The context containing arguments.
+
+    Returns:
+        tuple[str, dict]: Symbol and error dict (if any). If error is None, symbol is valid.
+    """
+    try:
+        content = json.loads(context)
+        symbol = content["arguments"]["symbol"]
+
+        if not symbol:
+            return None, {"Error": "Missing stock symbol"}
+
+    except (json.JSONDecodeError, KeyError) as e:
+        return None, {"Error": f"Invalid context format: {str(e)}"}
+
+    else:
+        return symbol, None
 
 
 @app.generic_trigger(
@@ -69,18 +94,18 @@ def get_company_overview(context: str) -> dict:
     """
     logging.info("Fetching company overview")
 
-    # Parse the context to extract the symbol
-    try:
-        content = json.loads(context)
-        symbol = content["arguments"]["symbol"]
+    symbol, error = extract_symbol(context)
+    if error:
+        return error
 
-        # Fetch the company overview
+    # Fetch the company overview
+    try:
         result = fetcher(client, "OVERVIEW", symbol)
         logging.info("Company overview fetched successfully!")
-
     except Exception as e:
         logging.exception(f"Error fetching company overview: {e}")
         result = {"Error": str(e)}
+
     else:
         return result
 
@@ -104,13 +129,13 @@ def get_income_statement(context: str) -> dict:
     """
     logging.info("Fetching income statement")
 
-    # Parse the context to extract the symbol
-    try:
-        content = json.loads(context)
-        symbol = content["arguments"]["symbol"]
+    symbol, error = extract_symbol(context)
+    if error:
+        return error
 
+    try:
         # Fetch the income statement
-        result = fetcher(client, "OVERVIEW", symbol)
+        result = fetcher(client, "INCOME_STATEMENT", symbol)
         logging.info("Income statement fetched successfully!")
 
     except Exception as e:
@@ -140,13 +165,13 @@ def get_balance_sheet(context: str) -> dict:
     """
     logging.info("Fetching balance sheet")
 
-    # Parse the context to extract the symbol
-    try:
-        content = json.loads(context)
-        symbol = content["arguments"]["symbol"]
+    symbol, error = extract_symbol(context)
+    if error:
+        return error
 
+    try:
         # Fetch the balance sheet
-        result = fetcher(client, "OVERVIEW", symbol)
+        result = fetcher(client, "BALANCE_SHEET", symbol)
         logging.info("Balance sheet fetched successfully!")
 
     except Exception as e:
@@ -165,7 +190,7 @@ def get_balance_sheet(context: str) -> dict:
     toolProperties=CASH_FLOW.tool_properties_as_json(),
 )
 def get_cash_flow(context: str) -> dict:
-    """Fetch balance sheet data from Alpha Vantage API.
+    """Fetch cash flow data from Alpha Vantage API.
 
     Args:
         context (str): The context string is containing the arguments for the function.
@@ -176,13 +201,13 @@ def get_cash_flow(context: str) -> dict:
     """
     logging.info("Fetching cash flow")
 
-    # Parse the context to extract the symbol
-    try:
-        content = json.loads(context)
-        symbol = content["arguments"]["symbol"]
+    symbol, error = extract_symbol(context)
+    if error:
+        return error
 
+    try:
         # Fetch the cash flow
-        result = fetcher(client, "OVERVIEW", symbol)
+        result = fetcher(client, "CASH_FLOW", symbol)
         logging.info("Cash flow fetched successfully!")
 
     except Exception as e:
@@ -201,7 +226,7 @@ def get_cash_flow(context: str) -> dict:
     toolProperties=EARNINGS.tool_properties_as_json(),
 )
 def get_earnings(context: str) -> dict:
-    """Fetch balance sheet data from Alpha Vantage API.
+    """Fetch earnings data from Alpha Vantage API.
 
     Args:
         context (str): The context string is containing the arguments for the function.
@@ -212,13 +237,13 @@ def get_earnings(context: str) -> dict:
     """
     logging.info("Fetching earnings")
 
-    # Parse the context to extract the symbol
-    try:
-        content = json.loads(context)
-        symbol = content["arguments"]["symbol"]
+    symbol, error = extract_symbol(context)
+    if error:
+        return error
 
-        # Fetch the earnings")
-        result = fetcher(client, "OVERVIEW", symbol)
+    try:
+        # Fetch the earnings
+        result = fetcher(client, "EARNINGS", symbol)
         logging.info("Earnings fetched successfully!")
 
     except Exception as e:

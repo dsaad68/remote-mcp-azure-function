@@ -3,6 +3,10 @@
 This project implements an Azure Function that serves as a bridge between an Agent as a MCP Server and the AlphaVantage Financial API. 
 It allows AI agents to access financial data and perform financial analysis through tools exposed via MCP. 
 
+<div align="center">
+  <img src="docs/az-func-mcp.drawio.png" alt="Architecture diagram" width="65%"/>
+</div>
+
 The Azure Function exposes the following financial data endpoints as MCP tools:
 - Company Overview
 - Income Statement
@@ -12,10 +16,10 @@ The Azure Function exposes the following financial data endpoints as MCP tools:
 
 ## Prerequisites
 
-- [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 - An Azure subscription
+- [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 - [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local)
-- Python 3.8 or higher
+- Python 3.11
 - An AlphaVantage API key
 
 ## Local Development
@@ -115,11 +119,25 @@ az functionapp config appsettings set \
   --settings ALPHAVANTAGE_API_KEY=<your-api-key>
 ```
 
+## Setting up VS Code for MCP Development
+
+This project includes a `.vscode/mcp.json` configuration file that helps you connect to your MCP endpoint during development. This file contains:
+
+1. **Input definitions** - Prompts for:
+   - The Azure Functions MCP Extension System Key (stored securely)
+   - Your Azure Functions App Name
+
+2. **Server configurations**:
+   - `remote-mcp-function` - Connects to your deployed Azure Function using the inputs above
+   - `local-mcp-function` - Connects to a locally running function on port 7071
+
+This allows you to test your MCP tools directly from VS Code during development, either against your local function app or your deployed Azure instance.
+
 ## Using with AI Agents
 
 The `agent` directory contains an example of how to use this MCP endpoint with an AI agent using the Agno framework. You can use this as a starting point for your own financial analysis agent.
 
-## Available Financial Tools
+### Available Financial Tools
 
 This project exposes the following AlphaVantage API endpoints as MCP tools:
 
@@ -130,3 +148,8 @@ This project exposes the following AlphaVantage API endpoints as MCP tools:
 5. **Earnings** - Returns annual and quarterly earnings data including analyst estimates
 
 Each tool takes a stock symbol as input and returns the corresponding financial data from AlphaVantage.
+
+## Infrastructure Code Attribution
+
+The infrastructure code for this project was adapted from [Azure-Samples/remote-mcp-functions-python](https://github.com/Azure-Samples/remote-mcp-functions-python), which provides a template for deploying Python functions as remote MCP tools on Azure.
+

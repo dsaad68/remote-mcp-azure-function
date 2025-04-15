@@ -1,7 +1,5 @@
 # AlphaVantage MCP Server with Azure Functions
 
-## Introduction
-
 This project implements an Azure Function that serves as a bridge between an Agent as a MCP Server and the AlphaVantage Financial API. 
 It allows AI agents to access financial data and perform financial analysis through tools exposed via MCP. 
 
@@ -25,7 +23,7 @@ The Azure Function exposes the following financial data endpoints as MCP tools:
 1. Clone this repository
 2. Create a virtual environment and install dependencies:
 ```bash
-uv sync
+uv sync --frozen
 ```
 
 3. Create a `local.settings.json` file in the `src` directory with your AlphaVantage API key:
@@ -59,6 +57,10 @@ azd up
 ```
 
 This will provision the necessary Azure resources and deploy the Function App.
+
+
+> **Note:** For setting up environment variables, refer to the [Adding Environment Variables](#adding-environment-variables) section.
+
 
 ## Getting the MCP Endpoint URL
 

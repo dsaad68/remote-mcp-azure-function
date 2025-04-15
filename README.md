@@ -137,18 +137,6 @@ This allows you to test your MCP tools directly from VS Code during development,
 
 The `agent` directory contains an example of how to use this MCP endpoint with an AI agent using the Agno framework. You can use this as a starting point for your own financial analysis agent.
 
-### Available Financial Tools
-
-This project exposes the following AlphaVantage API endpoints as MCP tools:
-
-1. **Company Overview** - Returns company information, financial ratios, and key metrics
-2. **Income Statement** - Returns annual and quarterly income statements
-3. **Balance Sheet** - Returns annual and quarterly balance sheets
-4. **Cash Flow** - Returns annual and quarterly cash flow statements
-5. **Earnings** - Returns annual and quarterly earnings data including analyst estimates
-
-Each tool takes a stock symbol as input and returns the corresponding financial data from AlphaVantage.
-
 ## Infrastructure Code Attribution
 
 The infrastructure code for this project was adapted from [Azure-Samples/remote-mcp-functions-python](https://github.com/Azure-Samples/remote-mcp-functions-python), which provides a template for deploying Python functions as remote MCP tools on Azure.

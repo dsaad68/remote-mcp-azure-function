@@ -4,7 +4,7 @@ This project implements an Azure Function that serves as a bridge between an Age
 It allows AI agents to access financial data and perform financial analysis through tools exposed via MCP. 
 
 <div align="center">
-  <img src="docs/az-func-mcp.drawio.png" alt="Architecture diagram" width="65%"/>
+  <img src="docs/az-func-mcp.drawio.png" alt="Architecture diagram" width="100%"/>
 </div>
 
 The Azure Function exposes the following financial data endpoints as MCP tools:
@@ -14,13 +14,15 @@ The Azure Function exposes the following financial data endpoints as MCP tools:
 - Cash Flow
 - Earnings Report
 
+There is a demo agent created with PydanticAI in the `agent` directory that can be used to test the MCP server. More information [Demo Agent](#demo-agent) file.
+
 ## Prerequisites
 
 - An Azure subscription
 - [Azure Developer CLI (azd)](https://learn.microsoft.com/en-us/azure/developer/azure-developer-cli/install-azd)
 - [Azure Functions Core Tools](https://learn.microsoft.com/en-us/azure/azure-functions/functions-run-local)
 - Python 3.11
-- An AlphaVantage API key
+- An AlphaVantage API key (see [AlphaVantage](https://www.alphavantage.co/))
 
 ## Local Development
 
@@ -133,7 +135,7 @@ This project includes a `.vscode/mcp.json` configuration file that helps you con
 
 This allows you to test your MCP tools directly from VS Code during development, either against your local function app or your deployed Azure instance.
 
-## Using with AI Agents
+## Demo Agent
 
 The `agent` directory contains an example of how to use this MCP endpoint with an AI agent using the Agno framework. You can use this as a starting point for your own financial analysis agent.
 

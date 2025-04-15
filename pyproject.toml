@@ -1,0 +1,25 @@
+[project]
+name = "remote-mcp-azure-function"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "azure-functions>=1.23.0",
+    "httpx>=0.28.1",
+    "mcp>=1.6.0",
+    "openai>=1.74.0",
+    "pydantic-ai-slim[mcp]>=0.0.55",
+]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+lint.select = ["E", "F", "I", "UP", "A"]
+lint.ignore = ["D203", "LOG015", "D413"]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+    "ruff>=0.11.5",
+]
